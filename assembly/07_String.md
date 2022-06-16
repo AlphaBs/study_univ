@@ -1,6 +1,5 @@
 # String
 
-- MOVS: DS:[ESI] -> ES:[EDI], ESI, EDI 증가 혹은 감소
 - MOVSB: [ESI] -> [EDI], 1바이트 이동, DF가 0이면 증가, DF가 1이면 감소
 - MOVSW: [ESI] -> [EDI], 2바이트 이동, 2바이트 증감
 - MOVSD: [ESI] -> [EDI], 4바이트 이동, 4바이트 증감

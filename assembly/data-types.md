@@ -10,4 +10,3 @@
 | qword   | 64bit    | 8byte     |
 | tword   | 80bit    | 10byte    |
 | xmmword | 128bit   | 16byte    |
-

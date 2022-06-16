@@ -37,9 +37,7 @@
 
 `| Prefixes | Opcode | ModR/M | SIB | Displacement | Immediate |`
 
-메모리 주소를 나타낼 경우, 베이스 인덱스 스케일 변위의 위치가 어디에 있는지 알려줌
-
-mov 명령어의 두 인자로는 (레지스터 r), (레지스터 혹은 메모리 주소 r/m)가 들어간다. 두 인자의 순서, r/m이 무엇을 가르키는 지 Opcode 에 담아내기 위해 ModR/M 과 SIB 사용
+mov 명령어의 두 인자로는 (레지스터 r), (레지스터 혹은 메모리 주소 r/m)가 들어간다. 두 인자의 순서, r/m이 무엇을 가르키는 지 명령어에 담아내기 위해 ModR/M 과 SIB 사용
 
 Opcode 에 + 가 있는 경우, EAX, ECX, EDX, EBX 순으로 확장 (정확한 건 공식문서 참고)
 
@@ -65,7 +63,7 @@ scale*index 가 없는 경우 none
 
 ### Prefix: Operand-size Override
 
-16비트가 아닌 32비트 크기 사용
+r32, r/m32 -> r16, r/m16 으로 크기 변경
 
 ### Prefix: Address-size Override
 
@@ -75,5 +73,5 @@ scale*index 가 없는 경우 none
 
 ## LEA
 
-`lea eax, [ebx+ ecx*4 + 0x10]`  
+`lea eax, [ebx + ecx*4 + 0x10]`  
 eax에 주소 계산한 값을 저장
