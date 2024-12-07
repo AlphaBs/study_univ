@@ -1,0 +1,6 @@
+ANDI x12, x11, 11
+ANDI x12, x11, -1
+ANDI x12, x11, 1234
+ANDI x12, x11, 0x0a
+ANDI x12, x11, 0xAF
+ANDI x12, x11, 012

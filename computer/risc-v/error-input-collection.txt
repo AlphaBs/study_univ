@@ -1,0 +1,49 @@
+A
+ADD
+ADD x
+ADD x0
+ADD x0,
+ADD x0, x
+ADD x0, x1
+ADD x0, x1,
+ADD x0, x1, x
+ADD x0, x1, x2,
+ADD x0, x1, x2, x3
+
+ADD x0
+, x1, x2
+
+ADD x0,
+x1, x2
+
+ADD 
+x0, x1, x2
+
+ADD x0, x1
+, x2
+
+ADD x0, x1, 
+x2
+
+ADD x0, x1, x
+2
+
+ADDI x0, x0, 0ABC
+
+:
+ADDI x0, x0, 0
+::
+ADDI x0, x0, 0
+::::
+ADDI x0, x0, 0
+    :
+ADDI x0, x0, 0
+
+1asdf:
+ADDI x0, x0, 0
+
+1:
+ADDI x0, x0, 0
+
+ADD x1, :
+ADDI x0, x0, 0
