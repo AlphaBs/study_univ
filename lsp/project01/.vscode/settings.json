@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "shell.h": "c",
+        "tree.h": "c",
+        "stdbool.h": "c",
+        "limits.h": "c",
+        "syslimits.h": "c",
+        "cerrno": "c",
+        "stdio.h": "c"
+    }
+}

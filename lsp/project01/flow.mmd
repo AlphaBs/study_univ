@@ -1,0 +1,111 @@
+graph TD
+    %% 주요 노드 정의
+    main["main()
+    쉘 프롬프트 출력 및 명령어 처리"]
+    
+    %% Tree 명령어 관련 노드
+    execTree["execTree(char *input)
+    tree 명령어 인수 처리 및 실행"]
+    printTree["printTree(...)
+    디렉토리 구조 재귀적 출력"]
+    printNodeStat["printNodeStat(...)
+    파일/디렉토리 정보 출력"]
+    concatPath["concatPath(...)
+    경로 문자열 결합"]
+    
+    %% Arrange 명령어 관련 노드
+    execArrange["execArrange(char *input)
+    arrange 명령어 인수 처리 및 실행"]
+    validateDir["validateDir(...)
+    디렉토리 경로 유효성 검사"]
+    arrangeDir["arrangeDir(...)
+    디렉토리 재귀적 순회"]
+    arrangeFile["arrangeFile(...)
+    파일 정보 처리 및 리스트 추가"]
+    resolveConflict["resolveConflict(...)
+    파일 충돌 해결"]
+    runDiff["runDiff(...)
+    diff 명령어 실행"]
+    runVi["runVi(...)
+    vi 명령어 실행"]
+    selectPath["selectPath(...)
+    경로 선택 유틸리티 함수"]
+    selectNum["selectNum(...)
+    숫자 선택 유틸리티 함수"]
+    
+    %% 도움말 관련 노드
+    printArrangeHelp["printArrangeHelp()
+    arrange 명령어 도움말 출력"]
+    help["help(char *input)
+    도움말 명령어 처리"]
+    printDefault["printDefault()
+    전체 도움말 출력"]
+    printTreeHelp["printTreeHelp()
+    tree 명령어 도움말 출력"]
+    
+    %% 파일 구조 표시
+    subgraph "main.c"
+        main
+        help
+        printTreeHelp
+        printArrangeHelp
+        printDefault
+    end
+    
+    subgraph "tree.c"
+        execTree
+        printTree
+        printNodeStat
+        concatPath
+    end
+
+    subgraph "arrange.c"
+        execArrange
+        validateDir
+        arrangeDir
+        arrangeFile
+        resolveConflict
+        runDiff
+        runVi
+        selectPath
+        selectNum
+    end
+    
+    %% 주요 관계 표시 - 메인
+    main -->|"tree 명령어"| execTree
+    main -->|"arrange 명령어"| execArrange
+    
+    %% tree.c 관련 관계
+    execTree -->|"false 반환시"| printTreeHelp
+    execTree -->|"명령어 실행"| printTree
+    printTree -->|"재귀 호출"| printTree
+    printTree -->|"파일/디렉토리 정보"| printNodeStat
+    printTree -->|"경로 결합"| concatPath
+    
+    %% arrange.c 관련 관계
+    execArrange -->|"false 반환시"| printArrangeHelp
+    execArrange -->|"경로 유효성 검사"| validateDir
+    execArrange -->|"디렉토리 순회"| arrangeDir
+    arrangeDir -->|"재귀 호출"| arrangeDir
+    arrangeDir -->|"파일 처리"| arrangeFile
+    arrangeFile -->|"충돌 발생시"| resolveConflict
+    resolveConflict -->|"diff 선택시"| runDiff
+    resolveConflict -->|"vi 선택시"| runVi
+    resolveConflict -->|"경로 선택 처리"| selectPath
+    resolveConflict -->|"번호 선택 처리"| selectNum
+    
+    %% 도움말 관련 관계
+    main -->|"help 명령어"| help
+    help -->|"help tree"| printTreeHelp
+    help -->|"help arrange"| printArrangeHelp
+    help -->|"기타"| printDefault
+
+    %% 스타일 설정
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;
+    classDef mainFile fill:#e1f5fe,stroke:#01579b,stroke-width:1px;
+    classDef treeFile fill:#e8f5e9,stroke:#1b5e20,stroke-width:1px;
+    classDef arrangeFile fill:#fff8e1,stroke:#ff6f00,stroke-width:1px;
+    
+    class main,help,printTreeHelp,printArrangeHelp,printDefault mainFile;
+    class execTree,printTree,printNodeStat,concatPath treeFile;
+    class execArrange,validateDir,arrangeDir,arrangeFile,resolveConflict,runDiff,runVi,selectPath,selectNum arrangeFile;
