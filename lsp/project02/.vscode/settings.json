@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "file.h": "c",
+        "stdio.h": "c",
+        "string.h": "c",
+        "daemonlog.h": "c",
+        "errno.h": "c"
+    }
+}
