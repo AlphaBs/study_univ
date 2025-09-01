@@ -88,7 +88,7 @@ typedef enum
     INST_OPTYPE_UJ
 } INST_OPTYPE;
 
-#define INST_COUNT 23
+#define INST_COUNT 24
 typedef enum
 {
     INST_OP_UNKNOWN = -1,
@@ -112,6 +112,7 @@ typedef enum
     INST_OP_JALR,
     INST_OP_SW,
     INST_OP_BEQ,
+    INST_OP_BNE,
     INST_OP_BGE,
     INST_OP_BLT,
     INST_OP_JAL,
@@ -160,10 +161,12 @@ const INST_OP_MAP_ITEM INST_OP_MAP[INST_COUNT] =
         {INST_OP_SW, INST_OPTYPE_S, "SW"},
 
         {INST_OP_BEQ, INST_OPTYPE_SB, "BEQ"},
+        {INST_OP_BNE, INST_OPTYPE_SB, "BNE"},
         {INST_OP_BGE, INST_OPTYPE_SB, "BGE"},
         {INST_OP_BLT, INST_OPTYPE_SB, "BLT"},
 
-        {INST_OP_JAL, INST_OPTYPE_UJ, "JAL"}};
+        {INST_OP_JAL, INST_OPTYPE_UJ, "JAL"}
+    };
 
 INST_OP parseInstOpString(char *op)
 {
@@ -462,7 +465,7 @@ PARSER_RESULT readOpOrLabel(FILE *file, PARSER_STATE *state, INST *inst)
 // x0 ~ x31 레지스터 파싱
 PARSER_RESULT parseRegister(char *buffer, char *reg)
 {
-    if (strlen(buffer) < 2 || buffer[0] != 'x')
+    if (strlen(buffer) < 2 || !(buffer[0] == 'x' || buffer[0] == 'X'))
         return PARSER_RESULT_INVALID_REGISTER;
 
     errno = 0;
@@ -1170,6 +1173,11 @@ bool executeInstProcess(PROCESS *process, INST *inst)
             process->pc = process->pc - 4 + extendSign(inst->imm, 13);
         return true;
 
+    case INST_OP_BNE:
+        if (getProcessReg(process, inst->rs1) != getProcessReg(process, inst->rs2))
+            process->pc = process->pc - 4 + extendSign(inst->imm, 13);
+        return true;
+
     case INST_OP_BGE:
         if ((PROCESS_REGISTER_SIGNED)getProcessReg(process, inst->rs1) >= (PROCESS_REGISTER_SIGNED)getProcessReg(process, inst->rs2))
             process->pc = process->pc - 4 + extendSign(inst->imm, 13);
@@ -1766,7 +1774,7 @@ int main()
     // 1: 테스트케이스 실행
     // 2: input.s 처리
     // 3: 명세서대로 실행
-    int mode = 3;
+    int mode = 2;
 
     switch (mode)
     {
@@ -1778,7 +1786,7 @@ int main()
         flagVerbose = true;
         flagRunStepByStep = false;
 
-        return startFile("error-input-1.s");
+        return startFile("tc5.s");
     case 3:
         flagVerbose = false;
         flagRunStepByStep = false;
